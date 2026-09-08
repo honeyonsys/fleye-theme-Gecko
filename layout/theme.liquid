@@ -1,0 +1,218 @@
+<!doctype html>
+{%- liquid
+  assign t_name     = request.page_type
+  assign iso_code   = request.locale.iso_code
+  assign use_rtl    = settings.use_rtl
+  if use_rtl == '2'
+    assign lis_rtl  = 'ar; dv; ha; he; ku; fa; ur; ug; ps; yi'
+    assign iso_code_ck = iso_code | split: '-' | first
+  else 
+    assign iso_code_ck = iso_code
+    assign lis_rtl = settings.list_rtl
+  endif
+  if use_rtl == '1'
+    assign isRTL = true
+  elsif lis_rtl contains iso_code_ck and use_rtl == '2' or use_rtl == '3'
+    assign isRTL = true
+  else
+    assign isRTL = false
+  endif
+  assign body_img = settings.body_bg_image
+  if body_img != blank 
+    assign class_lazy = 'lazyloadt4s'
+  endif -%}
+{%- capture class_html -%}
+t4sp-theme t4s-wrapper__{{ settings.general_layout }} rtl_{{ isRTL }} swatch_color_style_{{ settings.swatch_color_style }} pr_border_style_{{ settings.pr_border_style }} pr_img_effect_{{ settings.pr_img_effect }} enable_eff_img1_{{ settings.enable_eff_img1 }} badge_shape_{{ settings.badge_shape }} css_for_wis_app_{{ settings.enable_css_wis }}{% if settings.use_cus_lz and settings.cus_lz %} t4s-lzcus-true{% endif %} shadow_round_img_{{ settings.enable_shadow_round_img }} t4s-header__{{ settings.header_design }} is-remove-unavai-{{ settings.variant_remove }} t4_compare_{{ settings.enable_compe }}{% if settings.type_qv == '1' %} t4s-sidebar-qv{% endif %} t4s-cart-count-{{ cart.item_count }} t4s-pr-ellipsis-{{ settings.enable_pr_ellipsis }}
+{%- endcapture -%}
+<html class="{{ class_html }} no-js" lang="{{ iso_code }}"{% if isRTL %} dir="rtl"{% endif %}>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, height=device-height, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="theme-color" content="{{ settings.body_bg }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    
+    {%- if settings.favicon != blank %}<link rel="shortcut icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}"><link id="t4s-favico" rel="apple-touch-icon-precomposed" type="image/png" sizes="152x152" href="{{ settings.favicon | image_url: width: 152, height: 152 }}">{% endif -%}
+
+    {%- if settings.font_source == '1' and settings.fnt_fm_sp1.system? == false or settings.fnt_fm_sp2.system? == false or settings.fnt_fm_sp3.system? == false -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endif -%}
+
+    {%- if t_name != 'list-collections' -%}
+    {%- capture seo_title -%}
+      {%- if template == 'search' and search.performed == true -%}{{ 'search.general.heading' | t: count: search.results_count }}: {{ 'search.results_with_count_and_term' | t: terms: search.terms, count: search.results_count }}{%- elsif template == 'search.wishlist' %}{{ 'wishlist_page.meta' | t }}{%- elsif template == 'search.compare' %}{{ 'compare_page.meta' | t }}{%- else -%}{{ page_title }}{%- endif -%}
+      {%- if current_tags -%}{%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}{%- endif -%}
+      {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{%- endif -%}
+      {%- assign escaped_page_title = page_title | escape -%}
+      {%- unless escaped_page_title contains shop.name %} &ndash; {{ shop.name }}{%- endunless -%}
+    {%- endcapture -%}
+    <title>{{ seo_title | strip }}</title>
+    <meta name="description" content="{{ page_description | default: shop.description | default: shop.name | escape }}">
+    {%- else -%}
+    <title>{{ 'list_collections.meta_title' | t | escape }}</title><meta name="description" content="{{ 'list_collections.meta_description' | t | escape }}">
+    {%- endif -%}
+
+    {%- liquid 
+      assign t_name = request.page_type
+      assign body_img = settings.body_bg_image
+      render 'meta-tags', t_name: t_name
+    -%}
+    
+    <script src="{{ 'lazysizes.min.js' | asset_url }}" async="async"></script>
+    <script src="{{ 'global.min.js' | asset_url }}" defer="defer"></script>
+    {{ content_for_header }}
+    {%- render 'head_assets', t_name: t_name, isRTL: isRTL -%}
+    
+    <!-- whats app query button-->
+    <style>
+    	
+    .whatsapp-float-container {
+        position: fixed;
+        bottom: 15px;
+        left: 15px;
+        display: flex;
+        align-items: center;
+        z-index:99;
+    }
+
+    .whatsapp-float-button {
+        background-color: #25D366;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s;
+    }
+
+    .whatsapp-float-button:hover {
+        background-color: #1ebe55;
+    }
+
+    .whatsapp-icon {
+        fill: white;
+        width: 25px;
+        height: 25px;
+    }
+
+    .whatsapp-text-link {
+        display: none;
+        margin-left: 10px;
+        background-color: #25D366;
+        color: white;
+        padding: 8px 20px;
+        border-radius: 20px;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: width 0.3s, opacity 0.3s;
+    }
+
+    .whatsapp-text-link.visible {
+        display: inline-block;
+    }
+
+    @media only screen and (max-width: 600px) {
+      .whatsapp-float-container { 
+        bottom: 65px;
+      }
+    }
+
+    </style>
+  </head>
+
+  <body class="template-{{ request.page_type | handle }} {{ class_lazy }}"{% if body_img != blank %} data-bgset="{{ body_img | image_url: width: 1 }}" data-optimumx="2" data-sizes="auto"{% endif -%}>
+  {% comment %} {% render 'popup-adbanner' %} <!--popup banner for discount appear on home page --> {% endcomment %}
+    <!--whats app box starts-->
+  <div class="whatsapp-float-container">
+        <div class="whatsapp-float-button" onclick="toggleText()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="whatsapp-icon">
+                <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+            </svg>
+        </div>
+        <a href="#" class="whatsapp-text-link" id="whatsappTextLink">
+            Send your enquiry
+        </a>
+    </div>  
+    <!--whats app box ends-->
+  
+  <a class="skip-to-content-link visually-hidden" href="#MainContent">{{ "accessibility.skip_to_text" | t }}</a>
+    <div class="t4s-close-overlay t4s-op-0"></div>
+
+    <div class="t4s-website-wrapper">
+      {%- render 'header', t_name: t_name -%}
+
+      <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+        {{ content_for_layout }}
+      </main>
+
+      <footer id="t4s-footer">
+        {%- section 'footer' -%}
+        {%- section 'footer-bottom' -%}
+      </footer>
+    </div>
+
+      <ul hidden class="t4s-d-none">
+        <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
+      </ul>
+    {%- render 'render_bottom' -%}
+    
+    <script>
+    	function toggleText() {
+		    const link = document.getElementById('whatsappTextLink');
+		    if (link.classList.contains('visible')) {
+		        link.classList.remove('visible');
+		    } else {
+		        link.classList.add('visible');
+		    }
+		}
+
+		// Detect if the user is on a mobile device
+		var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+		var whatsappLink = document.getElementById('whatsappTextLink');
+		//var phoneNumber = '919910448469'; // Replace with your phone number
+    var phoneNumber = '9821669998';
+
+		if (isMobile) {
+		    whatsappLink.href = `https://wa.me/${phoneNumber}`;
+		} else {
+		    whatsappLink.href = `https://web.whatsapp.com/send?phone=${phoneNumber}`;
+		}
+
+    </script>
+                  
+    <script>
+  function cleanDualPrices() {
+    const priceElements = document.querySelectorAll('.t4s-product-price');
+    priceElements.forEach(function(element) {
+      const priceText = element.textContent.trim();
+      if (priceText.includes('–')) {
+        const newPrice = priceText.split('–')[0].trim();
+        element.textContent = newPrice;
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    cleanDualPrices(); // Run initially
+
+    // Watch for future DOM changes
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(() => {
+        cleanDualPrices(); // Re-run when changes happen
+      });
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  });
+</script>
+
+
+  </body>
+</html>

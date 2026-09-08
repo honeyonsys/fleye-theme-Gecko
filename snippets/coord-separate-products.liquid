@@ -1,0 +1,108 @@
+<!-- Define the product mapping as an array by harish -->
+{% assign product_mapping = 
+  "7744011010093:black-bowling-shirt,black-bowling-trouser|
+  7931512619053:black-detachable-sleeves-denim-shirt,black-denim-pant|
+  8075663671341:green-leather-vest-trench-coat-1,amy-leather-coat,green-leather-pant|
+  8076225839149:emily-tan-leather-shorts,brown-leather-jacket|
+  8075752833069:light-brown-leather-bottom,light-black-leather-jacket|
+  8075754045485:bargandi-leather-pant,bargandi-leather-jacket|
+  8075750342701:olive-green-pant,julie-olive-green-top,olive-green-vest-jacket|
+  8076262604845:grey-blazer-top,grey-blazer-top-and-skirt-set,rosie-wool-skirt|
+  8075610751021:samantha-tweed-dress,samantha-tweed-jacket|
+  8075800772653:swan-sequins-jacket,swan-sequins-skirt|
+  8075751915565:check-blazer,sarah-shirt,check-crop-shirt-skirt|
+  8075800936493:brown-suede-coord-set-vest,brown-suede-coord-setpant|
+  8075802804269:sophie-tweed-dress,sophie-tweed-jacket|
+  8122114342957:madagascar-midnight-blue-sheer-duster,madagascar-midnight-blue-wide-leg-trousers,madagascar-midnight-blue-bralette-top|
+  8123292680237:barcelona-top,barcelona-skirt|
+  8122080493613:ravello-top,ravello-skirt|
+  8122079313965:florence-top,florence-skirt|
+  8122034487341:tuscany-top,tuscany-skirt|
+  8122034356269:venice-top,venice-pants,venice-shorts|
+  8122034028589:rome-top,rome-skirt|
+  8122033766445:monte-carlo-jacket,monte-carlo-skirt|
+  8122032750637:santorini-top,santorini-cross-cross-top,santorini-skirt|
+  8122030948397:pompeii-crop-top,pompeii-jacket,pompeii-pants|
+  8121814712365:madagascar-beige-top,madagascar-beige-cape,madagascar-beige-pants|
+  8123272396845:naples-trio-co-ord,naples-top,naples-pants|
+  8121680265261:como-top,como-skirt|
+  8126454726701:positano-top,positano-pants|
+  8326403850285:the-windsor-shirt,the-windsor-skirt|
+  8326372393005:maple-grove-tweed-dress,maple-grove-tweed-jacket|
+  8326375145517:pinkwood-rosette-blazer,pinkwood-rosette-skirt|
+  8326375735341:sandstone-crop-top,sandstone-pants|
+  8326376325165:the-outrider-jacket,the-outrider-pants|
+  8326386941997:rustpath-jacket,rustpath-skirt|
+  8326390218797:lilac-bourne-dress,lilac-bourne-jacket|
+  8326391332909:chestnut-trail-shirt,chestnut-trail-skirt|
+  8326392479789:monochrome-crest-dress,monochrome-crest-cape|
+  8326397394989:bluewood-tweed-jacket,bluewood-tweed-skirt|
+  8326395133997:bluewood-tweed-jacket,bluewood-tweed-pants|
+  8326401818669:snowcrest-top,snowcrest-skirt|
+  8326400245805:snowcrest-top,snowcrest-pants|
+  8326378029101:nightbloom-jacket,nightbloom-pants|
+  8449078198317:lunaria-top,lunaria-pants|
+  8449083015213:lunaria-top,lunaria-shorts|
+  8448777551917:vervian-camisole-top,vervain-pants|
+  8449073807405:vervain-halter-top,vervain-pants|
+  8448797048877:foxglove-top,foxglove-pants|
+  8448783024173:cherry-blossom-top,cherry-blossom-skirt|
+  8447710363693:night-tulip-top,night-tulip-pants|
+  8447706202157:vanilla-orchid-top,vanilla-orchid-pants|
+  8449066172461:lily-grace-top,lily-grace-pants|
+  8449092321325:white-lotus-top,white-lotus-skirt|
+  8122134396973:sorrento-dress-green-and-off-white|
+  8122090356781:sorrento-dress-off-white|
+  8447715737645:marguerite-daisy-tiered-dress|
+  8449060864045:chamomile-blue-tiered-dress|
+  15196584738861:yellow-stripped-fringe-top,yellow-stripped-fringe-trousers|
+  15196530868269:yellow-stripped-top,yellow-stripped-coord-pants-copy,yellow-stripped-trousers|
+  15194578583597:multi-stripped-crochet-top,multi-stripped-crochet-trousers|
+  15194468188205:harem-pants-top,harem-pants|
+  15194380075053:green-stripped-top,green-stripped-shorts,green-stripped-pants|
+  15194326630445:fringes-shirt,fringes-skirt|
+  15193187385389:blue-stripped-top,blue-stripped-skirt|
+  15194288717869:harem-pants|"
+
+%}
+
+
+<!-- Split the mapping into main products -->
+{% assign main_products = product_mapping | split: '|' %}
+
+<!-- Iterate through each main product -->
+{% for main_product in main_products %}
+  {% assign parts = main_product | split: ':' %}
+  {% assign main_product_id = parts[0] | plus: 0 %} <!-- Convert to number -->
+  {% assign sub_product_handles = parts[1] | split: ',' %}
+  
+  <!-- Check if the current product matches the main product -->
+  {% if product.id == main_product_id %}
+    
+    <!-- Iterate through sub-products -->
+    {% for sub_product_handle in sub_product_handles %}
+      {% assign sub_product = all_products[sub_product_handle] %}
+      
+      {% if sub_product %}
+        <div class="product-card">
+          <a href="{{ sub_product.url }}" class="product-link"> <!-- Make image clickable -->
+            <div class="product-image">
+              <img src="{{ sub_product.featured_image | product_img_url: 'original' }}" alt="{{ sub_product.title }}" width="300">
+            </div>
+          </a>
+          <div class="product-details">
+            <h2 class="product-title" style="font-size:14px; font-weight: bold;">{{ sub_product.title }}</h2>
+            <p class="product-price">{{ sub_product.price | money }}</p>
+            <form action="/cart/add" method="post" class="product-form">
+              <input type="hidden" name="id" value="{{ sub_product.variants.first.id }}">
+              <button type="submit" class="add-to-cart">Add to Cart</button>
+            </form>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+    
+  {% endif %}
+{% endfor %}
+
+<!-- End Define the product mapping as an array by harish -->

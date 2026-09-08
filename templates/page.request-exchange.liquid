@@ -1,0 +1,127 @@
+{% if customer %}
+
+<div class="page-width">
+  <div class="exchange-wrapper">
+    <h1 class="title">Request Size Exchange</h1>
+    <br><br>
+
+    <form method="post" action="/contact" class="exchange-form">
+      <input type="hidden" name="form_type" value="contact">
+      <input type="hidden" name="contact[subject]" value="Size Exchange Request">
+      <input type="hidden" name="contact[email]" value="{{ customer.email }}">
+
+      <!-- Order Selection -->
+      <div class="field">
+        <label class="field__label"><b>Select Order:</b></label>
+        <select id="orderSelect" class="field__input" required>
+          <option value=""><b>Select an order</b></option>
+          {% for order in customer.orders %}
+            <option value="{{ order.id }}">
+              {{ order.name }} — {{ order.created_at | date: "%d %b %Y" }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Product Selection -->
+      <div class="field">
+        <label class="field__label"><b>Select Product:</b></label>
+        <select name="contact[product]" id="productSelect" class="field__input" required>
+          <option value="">Select product</option>
+          {% for order in customer.orders %}
+            {% for item in order.line_items %}
+              <option
+                data-order="{{ order.id }}"
+                value="{{ item.title }} ({{ order.name }})"
+                style="display:none;">
+                {{ item.title }}
+              </option>
+            {% endfor %}
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Current Size -->
+      <div class="field">
+        <label class="field__label"><b>Current Size</b></label><br>
+        <input
+          class="field__input"
+          name="contact[current_size]"
+          placeholder="e.g. M"
+          required>
+      </div>
+
+      <!-- Requested Size -->
+      <div class="field">
+        <label class="field__label"><b>Requested Size</b></label><br>
+        <input
+          class="field__input"
+          name="contact[new_size]"
+          placeholder="e.g. L"
+          required>
+      </div>
+
+      <!-- Reason -->
+      <div class="field">
+        <label class="field__label"><b>Reason (optional)</b></label><br>
+        <textarea
+          class="field__input"
+          name="contact[reason]"
+          rows="3"></textarea>
+      </div>
+
+      <button class="button button--primary">
+        Submit Exchange Request
+      </button>
+    </form>
+  </div>
+</div>
+
+<style>
+.exchange-wrapper {
+  max-width: 520px;
+  margin: auto;
+}
+.exchange-form .field {
+  margin-bottom: 1.5rem;
+}
+.exchange-wrapper textarea {
+width: 100%;}
+</style>
+
+<script>
+document.getElementById('orderSelect').addEventListener('change', function () {
+  const orderId = this.value;
+  const productSelect = document.getElementById('productSelect');
+
+  Array.from(productSelect.options).forEach(option => {
+    if (!option.dataset.order) return;
+    option.style.display =
+      option.dataset.order === orderId ? 'block' : 'none';
+  });
+
+  productSelect.value = '';
+});
+</script>
+
+{% else %}
+<center>
+    <br><br>
+ <div class="exchange-login-wrapper">
+  <div class="exchange-login-card">
+    <h2 class="title">Login Required</h2>
+    <p class="exchange-login-text">
+      Please log in to request a size exchange for your order.
+    </p>
+    <a href="/account/login?return_url=/pages/request-exchange
+" class="button button--primary">
+        <button>
+      Login to Your Account
+        </button>
+    </a>
+  </div>
+</div>
+</center>
+{% endif %}
+<br>
+<br>
