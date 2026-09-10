@@ -35,6 +35,8 @@
 {%- endif -%}
 
 {{- 't4s-base.css' | asset_url | stylesheet_tag: preload: true -}}
+{{- 'fleye-animations.css' | asset_url | stylesheet_tag: preload: true -}}
+{{- 't4s-submenu.css' | asset_url | stylesheet_tag: preload: true -}}
 {%- if isRTL %}{{- 't4s-theme_rtl.css' | asset_url | stylesheet_tag: preload: true -}}{% endif -%}
 {%- if settings.bootstrap_css %}{{- 't4s-bootstrap.min.css' | asset_url | stylesheet_tag -}}{% endif -%}
 

@@ -13,6 +13,15 @@
 -%}
 
 {%- style -%}
+  .t4s-section-header, #shopify-section-header-inline {
+    position: relative;
+    z-index: 500;
+  }
+  .t4s-nav__ul > li.t4s-menu-item > a::after,
+  .t4s-nav__ul > li > a::after {
+    display: none !important;
+    content: none !important;
+  }
   {%- assign opnav  = se_stts.opnav | divided_by: 100.0 -%}
   .t4s-header__wrapper {
     --h-text-color      : {{ se_stts.clnav }};
