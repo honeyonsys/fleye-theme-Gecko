@@ -436,9 +436,25 @@
   }
 
   /**
+   * Purge stale corrupted dropdown menu cache from sessionStorage
+   */
+  function purgeStaleMenuCache() {
+    try {
+      if (typeof window.sessionStorage !== 'undefined') {
+        Object.keys(sessionStorage).forEach((key) => {
+          if (key.includes('DropT4s')) {
+            sessionStorage.removeItem(key);
+          }
+        });
+      }
+    } catch (e) {}
+  }
+
+  /**
    * INITIALIZATION
    */
   function init() {
+    purgeStaleMenuCache();
     initScrollReveal();
     initButtonRipples();
     initCartAnimations();

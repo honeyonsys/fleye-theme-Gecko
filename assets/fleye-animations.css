@@ -217,7 +217,7 @@
 .t4s-pr-item-btn,
 .t4s-product-form__submit,
 .t4s-btn-custom,
-button[type="submit"]:not(.t4s-btn-icon) {
+button[type="submit"]:not(.t4s-btn-icon):not(.t4s-mini-search__submit):not([data-submit-search]):not(.t4s-search-header__submit):not(.t4s-drawer__close) {
   position: relative;
   overflow: hidden;
   transition: all var(--fleye-dur-fast) var(--fleye-ease-smooth);
@@ -559,13 +559,14 @@ header.t4s-section-header,
   /* Direct Top-Level Submenu - Base Hidden State (ready to slide down) */
   .t4s-navigation .t4s-nav__ul > li.has--children > .t4s-sub-menu,
   .t4s-navigation .t4s-nav__ul > li.has--children > .t4s-mega-menu,
-  .t4s-type__drop > .t4s-sub-menu,
-  .t4s-type__mega > .t4s-sub-menu,
-  .t4s-sub-menu {
+  .t4s-navigation .t4s-nav__ul > li.t4s-type__drop > .t4s-sub-menu,
+  .t4s-navigation .t4s-nav__ul > li.t4s-type__mega > .t4s-sub-menu {
     display: block !important;
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
+    background-color: var(--t4s-body-background, #ffffff) !important;
+    color: var(--text-color, #222222) !important;
     transform: translateY(-12px) !important;
     transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
                 transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
@@ -586,7 +587,9 @@ header.t4s-section-header,
   .t4s-navigation .t4s-nav__ul > li.has--children:hover > .t4s-sub-menu,
   .t4s-navigation .t4s-nav__ul > li.has--children.is-action__hover > .t4s-sub-menu,
   .t4s-navigation .t4s-nav__ul > li.has--children:hover > .t4s-mega-menu,
-  .t4s-navigation .t4s-nav__ul > li.has--children.is-action__hover > .t4s-mega-menu {
+  .t4s-navigation .t4s-nav__ul > li.has--children.is-action__hover > .t4s-mega-menu,
+  .t4s-navigation .t4s-nav__ul > li.t4s-type__drop:hover > .t4s-sub-menu,
+  .t4s-navigation .t4s-nav__ul > li.t4s-type__drop.is-action__hover > .t4s-sub-menu {
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
@@ -606,6 +609,25 @@ header.t4s-section-header,
   .t4s-navigation .t4s-nav__ul > li.has--children:hover > .t4s-mega-menu *,
   .t4s-navigation .t4s-nav__ul > li.has--children.is-action__hover > .t4s-mega-menu * {
     pointer-events: auto !important;
+  }
+
+  /* Inner Dropdown Container & Menu Items */
+  .t4s-navigation .t4s-sub-menu .t4s-dropdown__inner,
+  .t4s-navigation .t4s-sub-menu .t4s-lazy_menu {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .t4s-navigation .t4s-sub-menu .t4s-menu-item {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .t4s-navigation .t4s-sub-menu .t4s-menu-item > a {
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    color: var(--text-color, #222222) !important;
   }
 
   /* Invisible hover bridges to eliminate ANY gap between nav link and submenu */
@@ -1130,14 +1152,99 @@ header.t4s-section-header,
   transform: scale(1.25);
 }
 
-/* Search Drawer Input Focus & Micro-interactions */
-#t4s-search-hidden .t4s-mini-search__input {
-  transition: border-color var(--fleye-dur-fast) ease, box-shadow var(--fleye-dur-fast) ease;
+/* Search Drawer Input & Embedded Search Icon */
+#t4s-search-hidden .t4s-mini-search__btns,
+.t4s-search-sidebar .t4s-mini-search__btns {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  border-radius: var(--btn-radius, 4px) !important;
+  overflow: hidden !important;
 }
 
-#t4s-search-hidden .t4s-mini-search__input:focus {
+#t4s-search-hidden input.t4s-mini-search__input,
+.t4s-search-sidebar input.t4s-mini-search__input {
+  width: 100% !important;
+  height: 46px !important;
+  line-height: 46px !important;
+  padding: 0 48px 0 16px !important;
+  border: 1px solid var(--border-color, #e0e0e0) !important;
+  border-radius: var(--btn-radius, 4px) !important;
+  background-color: var(--t4s-body-background, #fff) !important;
+  color: var(--secondary-color, #222) !important;
+  font-size: 14px !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+  display: block !important;
+  margin: 0 !important;
+  transition: border-color var(--fleye-dur-fast, 0.2s) ease, box-shadow var(--fleye-dur-fast, 0.2s) ease !important;
+}
+
+#t4s-search-hidden input.t4s-mini-search__input:focus,
+.t4s-search-sidebar input.t4s-mini-search__input:focus {
   border-color: var(--accent-color, #222) !important;
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.06) !important;
+}
+
+#t4s-search-hidden .t4s-mini-search__submit,
+.t4s-search-sidebar .t4s-mini-search__submit,
+button[data-submit-search].t4s-mini-search__submit {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  left: auto !important;
+  width: 48px !important;
+  height: 100% !important;
+  min-height: 46px !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--secondary-color, #222) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  z-index: 5 !important;
+  transform: none !important;
+  box-shadow: none !important;
+  border-radius: 0 var(--btn-radius, 4px) var(--btn-radius, 4px) 0 !important;
+  overflow: visible !important;
+}
+
+#t4s-search-hidden .t4s-mini-search__submit svg,
+.t4s-search-sidebar .t4s-mini-search__submit svg {
+  width: 18px !important;
+  height: 18px !important;
+  fill: currentColor !important;
+  color: currentColor !important;
+  display: block !important;
+  margin: auto !important;
+  pointer-events: none !important;
+  transition: transform var(--fleye-dur-fast, 0.2s) ease, color var(--fleye-dur-fast, 0.2s) ease !important;
+}
+
+#t4s-search-hidden .t4s-mini-search__submit:hover svg,
+.t4s-search-sidebar .t4s-mini-search__submit:hover svg {
+  color: var(--accent-color, #000) !important;
+  transform: scale(1.12) !important;
+}
+
+.rtl_true #t4s-search-hidden input.t4s-mini-search__input,
+.rtl_true .t4s-search-sidebar input.t4s-mini-search__input {
+  padding: 0 16px 0 48px !important;
+}
+
+.rtl_true #t4s-search-hidden .t4s-mini-search__submit,
+.rtl_true .t4s-search-sidebar .t4s-mini-search__submit {
+  right: auto !important;
+  left: 0 !important;
+  border-radius: var(--btn-radius, 4px) 0 0 var(--btn-radius, 4px) !important;
 }
 
 #t4s-search-hidden .t4s-widget__pr {

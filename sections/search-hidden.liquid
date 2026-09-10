@@ -28,11 +28,92 @@
         assign limit = 16 
     endif
  -%}
-{%- if request.design_mode %}<link rel="stylesheet" href="{{ 't4s-search-hidden.css' | asset_url }}" media="all">{% endif -%}
+<link rel="stylesheet" href="{{ 't4s-search-hidden.css' | asset_url }}" media="all">
 <link rel="stylesheet" href="{{ 't4s-collection-products.css' | asset_url }}" media="all">
+<style>
+  #t4s-search-hidden .t4s-mini-search__btns,
+  .t4s-search-sidebar .t4s-mini-search__btns {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    border-radius: var(--btn-radius, 4px) !important;
+  }
+  #t4s-search-hidden input.t4s-mini-search__input,
+  .t4s-search-sidebar input.t4s-mini-search__input {
+    width: 100% !important;
+    height: 46px !important;
+    line-height: 46px !important;
+    padding: 0 48px 0 16px !important;
+    border: 1px solid var(--border-color, #e0e0e0) !important;
+    border-radius: var(--btn-radius, 4px) !important;
+    background-color: var(--t4s-body-background, #fff) !important;
+    color: var(--secondary-color, #222) !important;
+    font-size: 14px !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+    display: block !important;
+    margin: 0 !important;
+  }
+  #t4s-search-hidden input.t4s-mini-search__input:focus,
+  .t4s-search-sidebar input.t4s-mini-search__input:focus {
+    border-color: var(--accent-color, #222) !important;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.06) !important;
+  }
+  #t4s-search-hidden .t4s-mini-search__submit,
+  .t4s-search-sidebar .t4s-mini-search__submit,
+  button[data-submit-search].t4s-mini-search__submit {
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    left: auto !important;
+    width: 48px !important;
+    height: 100% !important;
+    min-height: 46px !important;
+    max-height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    color: var(--secondary-color, #222) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    z-index: 5 !important;
+    transform: none !important;
+    box-shadow: none !important;
+    border-radius: 0 var(--btn-radius, 4px) var(--btn-radius, 4px) 0 !important;
+    overflow: visible !important;
+  }
+  #t4s-search-hidden .t4s-mini-search__submit svg,
+  .t4s-search-sidebar .t4s-mini-search__submit svg {
+    width: 18px !important;
+    height: 18px !important;
+    fill: currentColor !important;
+    color: currentColor !important;
+    display: block !important;
+    margin: auto !important;
+    pointer-events: none !important;
+  }
+  .rtl_true #t4s-search-hidden input.t4s-mini-search__input,
+  .rtl_true .t4s-search-sidebar input.t4s-mini-search__input {
+    padding: 0 16px 0 48px !important;
+  }
+  .rtl_true #t4s-search-hidden .t4s-mini-search__submit,
+  .rtl_true .t4s-search-sidebar .t4s-mini-search__submit {
+    right: auto !important;
+    left: 0 !important;
+    border-radius: var(--btn-radius, 4px) 0 0 var(--btn-radius, 4px) !important;
+  }
+</style>
 <div class="t4s-drawer__header">
    <span class="t4s_as_title" aria-hidden="false">{{ 'search.general.title' | t }}</span>
-   <button class="t4s-drawer__close" data-drawer-close aria-label="{{ 'search.general.close_search' | t }}"><svg class="t4s-iconsvg-close" role="presentation" viewBox="0 0 16 14"><path d="M15 0L1 14m14 0L1 0" stroke="currentColor" fill="none" fill-rule="evenodd"></path></svg></button>
+   <button class="t4s-drawer__close" type="button" data-drawer-close aria-label="{{ 'search.general.close_search' | t }}"><svg class="t4s-iconsvg-close" role="presentation" viewBox="0 0 16 14"><path d="M15 0L1 14m14 0L1 0" stroke="currentColor" fill="none" fill-rule="evenodd"></path></svg></button>
 </div>
 <form data-frm-search action="{{ routes.search_url }}" method="get" class="t4s-mini-search__frm t4s-pr" role="search">
    <input type="hidden" name="type" value="product">

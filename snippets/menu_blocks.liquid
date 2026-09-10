@@ -41,7 +41,7 @@ bk_stts.lazy_mn and admin_sp == false
 	         <a class="t4s-lh-1 t4s-d-flex t4s-align-items-center t4s-pr" href="{{ bk_link }}" target="{{ bk_stts.open_link }}"{% if bk_stts.cus_cl %} style="color:{{ bk_stts.cl }}"{% endif %}>{%- render 'title_menu', bk_stts: bk_stts, showArrow: showArrow -%}</a>
 	         {%- if bk_stts.menu != blank -%}
 	         <div id="content_{{ blockID }}" class="t4s-sub-menu t4s-pa">
-	            <div class="t4s-lazy_menu">{%- render 'menu_dropdown', handle_menu: bk_stts.menu -%}</div>
+	            <div class="t4s-dropdown__inner" data-handle="{{ bk_stts.menu }}">{%- render 'menu_dropdown', handle_menu: bk_stts.menu -%}</div>
 	         </div>
 	        {%- endif -%}
 	      </li>

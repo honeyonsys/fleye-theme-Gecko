@@ -1,10 +1,16 @@
 <link rel="stylesheet" href="{{ 't4s-submenu.css' | asset_url }}" media="all">
 
 {%- liquid
-  if handle_menu.links != blank
-    assign llists = handle_menu.links
+  assign menu_obj = linklists[handle_menu]
+  if menu_obj == blank or menu_obj.links.size == 0
+    if handle_menu.links != blank
+      assign menu_obj = handle_menu
+    endif
+  endif
+  if menu_obj.links != blank and menu_obj.links.size > 0
+    assign llists = menu_obj.links
   else
-    assign llists = linklists[handle_menu].links
+    assign llists = linklists[handle_menu].links | default: linklists['women-sub-menu'].links | default: linklists['women'].links | default: linklists['shop'].links | default: linklists['main-menu'].links
   endif
 -%}
 {%- for link in llists -%}
