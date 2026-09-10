@@ -61,67 +61,11 @@ t4sp-theme t4s-wrapper__{{ settings.general_layout }} rtl_{{ isRTL }} swatch_col
     
     <script src="{{ 'lazysizes.min.js' | asset_url }}" async="async"></script>
     <script src="{{ 'global.min.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'fleye-interactions.js' | asset_url }}" defer="defer"></script>
     {{ content_for_header }}
     {%- render 'head_assets', t_name: t_name, isRTL: isRTL -%}
     
-    <!-- whats app query button-->
-    <style>
-    	
-    .whatsapp-float-container {
-        position: fixed;
-        bottom: 15px;
-        left: 15px;
-        display: flex;
-        align-items: center;
-        z-index:99;
-    }
 
-    .whatsapp-float-button {
-        background-color: #25D366;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        transition: background-color 0.3s;
-    }
-
-    .whatsapp-float-button:hover {
-        background-color: #1ebe55;
-    }
-
-    .whatsapp-icon {
-        fill: white;
-        width: 25px;
-        height: 25px;
-    }
-
-    .whatsapp-text-link {
-        display: none;
-        margin-left: 10px;
-        background-color: #25D366;
-        color: white;
-        padding: 8px 20px;
-        border-radius: 20px;
-        text-decoration: none;
-        white-space: nowrap;
-        transition: width 0.3s, opacity 0.3s;
-    }
-
-    .whatsapp-text-link.visible {
-        display: inline-block;
-    }
-
-    @media only screen and (max-width: 600px) {
-      .whatsapp-float-container { 
-        bottom: 65px;
-      }
-    }
-
-    </style>
   </head>
 
   <body class="template-{{ request.page_type | handle }} {{ class_lazy }}"{% if body_img != blank %} data-bgset="{{ body_img | image_url: width: 1 }}" data-optimumx="2" data-sizes="auto"{% endif -%}>
@@ -161,57 +105,17 @@ t4sp-theme t4s-wrapper__{{ settings.general_layout }} rtl_{{ isRTL }} swatch_col
     {%- render 'render_bottom' -%}
     
     <script>
-    	function toggleText() {
-		    const link = document.getElementById('whatsappTextLink');
-		    if (link.classList.contains('visible')) {
-		        link.classList.remove('visible');
-		    } else {
-		        link.classList.add('visible');
-		    }
-		}
-
-		// Detect if the user is on a mobile device
-		var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-		var whatsappLink = document.getElementById('whatsappTextLink');
-		//var phoneNumber = '919910448469'; // Replace with your phone number
-    var phoneNumber = '9821669998';
-
-		if (isMobile) {
-		    whatsappLink.href = `https://wa.me/${phoneNumber}`;
-		} else {
-		    whatsappLink.href = `https://web.whatsapp.com/send?phone=${phoneNumber}`;
-		}
-
+      (function() {
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        var whatsappLink = document.getElementById('whatsappTextLink');
+        var phoneNumber = '9821669998';
+        if (whatsappLink) {
+          whatsappLink.href = isMobile
+            ? 'https://wa.me/' + phoneNumber
+            : 'https://web.whatsapp.com/send?phone=' + phoneNumber;
+        }
+      })();
     </script>
-                  
-    <script>
-  function cleanDualPrices() {
-    const priceElements = document.querySelectorAll('.t4s-product-price');
-    priceElements.forEach(function(element) {
-      const priceText = element.textContent.trim();
-      if (priceText.includes('–')) {
-        const newPrice = priceText.split('–')[0].trim();
-        element.textContent = newPrice;
-      }
-    });
-  }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    cleanDualPrices(); // Run initially
-
-    // Watch for future DOM changes
-    const observer = new MutationObserver(function(mutations) {
-      mutations.forEach(() => {
-        cleanDualPrices(); // Re-run when changes happen
-      });
-    });
-
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true
-    });
-  });
-</script>
 
 
   </body>

@@ -1,0 +1,1175 @@
+/* ==========================================================================
+   FLEYE THEME - ULTRA-ROBUST ANIMATIONS & MICRO-INTERACTIONS ENGINE
+   Hardware-accelerated, modern 60/120fps CSS animations and transitions
+   ========================================================================== */
+
+:root {
+  /* Motion & Easing Tokens */
+  --fleye-ease-spring   : cubic-bezier(0.34, 1.56, 0.64, 1);
+  --fleye-ease-smooth   : cubic-bezier(0.16, 1, 0.3, 1);
+  --fleye-ease-out      : cubic-bezier(0.22, 1, 0.36, 1);
+  --fleye-ease-in-out   : cubic-bezier(0.65, 0, 0.35, 1);
+  --fleye-ease-bounce   : cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  
+  /* Durations */
+  --fleye-dur-instant   : 150ms;
+  --fleye-dur-fast      : 250ms;
+  --fleye-dur-normal    : 400ms;
+  --fleye-dur-slow      : 600ms;
+  --fleye-dur-gentle    : 900ms;
+
+  /* Shadows & Depth */
+  --fleye-shadow-sm     : 0 2px 8px rgba(0, 0, 0, 0.06);
+  --fleye-shadow-md     : 0 8px 20px -4px rgba(0, 0, 0, 0.1), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  --fleye-shadow-lg     : 0 16px 36px -6px rgba(0, 0, 0, 0.14), 0 4px 12px -2px rgba(0, 0, 0, 0.06);
+  --fleye-shadow-hover  : 0 20px 40px -8px rgba(0, 0, 0, 0.18), 0 6px 16px -2px rgba(0, 0, 0, 0.08);
+  --fleye-shadow-glow   : 0 0 24px rgba(var(--accent-color-rgb, 0, 0, 0), 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   1. KEYFRAME DEFINITIONS
+   -------------------------------------------------------------------------- */
+
+/* Light Sweep / Shimmer for High-Conversion Buttons */
+@keyframes fleyeShineSweep {
+  0% {
+    left: -120%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  100% {
+    left: 220%;
+    opacity: 0;
+  }
+}
+
+/* Subtle Breathing / Pulse Glow */
+@keyframes fleyePulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(var(--accent-color-rgb, 34, 34, 34), 0.4);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 0 16px 4px rgba(var(--accent-color-rgb, 34, 34, 34), 0.2);
+  }
+}
+
+/* Radar Wave Pulse for WhatsApp & Urgent Live Indicators */
+@keyframes fleyeRadarWave {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 14px rgba(37, 211, 102, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+@keyframes fleyeRadarWaveAccent {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(var(--accent-color-rgb, 34, 34, 34), 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 12px rgba(var(--accent-color-rgb, 34, 34, 34), 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(var(--accent-color-rgb, 34, 34, 34), 0);
+  }
+}
+
+/* Gentle Floating Idle Motion */
+@keyframes fleyeFloatGentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Badge / Counter Dynamic Pop */
+@keyframes fleyeBadgePop {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.35);
+  }
+  75% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Heartbeat Animation for Wishlist / Favorite Action */
+@keyframes fleyeHeartBeat {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.35);
+  }
+  40% {
+    transform: scale(0.95);
+  }
+  60% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Shipping Bar Striped Motion */
+@keyframes fleyeProgressStripe {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 30px 0;
+  }
+}
+
+/* Confetti-like Sparkle Pulse */
+@keyframes fleyeCelebrationGlow {
+  0%, 100% {
+    filter: brightness(1) drop-shadow(0 0 4px rgba(66, 132, 69, 0.4));
+  }
+  50% {
+    filter: brightness(1.2) drop-shadow(0 0 12px rgba(66, 132, 69, 0.8));
+  }
+}
+
+/* Smooth Fade Up Reveal */
+@keyframes fleyeSlideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Smooth Fade Down Reveal */
+@keyframes fleyeSlideDownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dynamic Ripple Expansion */
+@keyframes fleyeRippleEffect {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Cart Item Shake (on error or limit reached) */
+@keyframes fleyeShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+/* Skeleton Loading Shimmer */
+@keyframes fleyeSkeletonShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   2. BUTTONS & CALL-TO-ACTION (CTA) MICRO-INTERACTIONS
+   -------------------------------------------------------------------------- */
+
+.t4s-btn,
+.t4s-pr-item-btn,
+.t4s-product-form__submit,
+.t4s-btn-custom,
+button[type="submit"]:not(.t4s-btn-icon) {
+  position: relative;
+  overflow: hidden;
+  transition: all var(--fleye-dur-fast) var(--fleye-ease-smooth);
+  will-change: transform, box-shadow;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Hover Lift and Depth Shadow */
+@media (-moz-touch-enabled: 0), (hover: hover) and (min-width: 1025px) {
+  .t4s-btn:hover,
+  .t4s-product-form__submit:hover,
+  .t4s-btn-custom:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--fleye-shadow-md);
+  }
+
+  .t4s-btn:active,
+  .t4s-product-form__submit:active,
+  .t4s-btn-custom:active {
+    transform: translateY(-1px) scale(0.99);
+    box-shadow: var(--fleye-shadow-sm);
+  }
+}
+
+/* High-Impact Button Shine / Shimmer Effect */
+.t4s-btn-style-default:not(.t4s-btn-loading)::after,
+.t4s-product-form__submit:not(.is--loading)::after,
+.t4s-mini_cart__view_cart::after,
+.t4s-mini_cart__checkout::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -120%;
+  width: 60%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+  z-index: 3;
+}
+
+@media (-moz-touch-enabled: 0), (hover: hover) and (min-width: 1025px) {
+  .t4s-btn-style-default:hover::after,
+  .t4s-product-form__submit:hover::after,
+  .t4s-mini_cart__view_cart:hover::after,
+  .t4s-mini_cart__checkout:hover::after {
+    animation: fleyeShineSweep 1.1s var(--fleye-ease-out);
+  }
+}
+
+/* Button Icon Micro-motion */
+.t4s-btn svg,
+.t4s-product-form__submit svg,
+.t4s-btn .t4s-btn-icon {
+  transition: transform var(--fleye-dur-fast) var(--fleye-ease-spring);
+}
+
+@media (-moz-touch-enabled: 0), (hover: hover) and (min-width: 1025px) {
+  .t4s-btn:hover svg,
+  .t4s-product-form__submit:hover svg {
+    transform: translateX(4px);
+  }
+}
+
+/* Button Click Material Ripple Element */
+.fleye-ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+  animation: fleyeRippleEffect 0.6s linear;
+  transform: translate(-50%, -50%);
+}
+
+
+/* --------------------------------------------------------------------------
+   3. PRODUCT CARDS & GRID MOTION SYSTEM
+   -------------------------------------------------------------------------- */
+
+.t4s-product.t4s-pr-grid {
+  transition: transform var(--fleye-dur-normal) var(--fleye-ease-smooth),
+              box-shadow var(--fleye-dur-normal) var(--fleye-ease-smooth);
+  will-change: transform;
+}
+
+.t4s-product .t4s-product-inner {
+  border-radius: var(--other-radius, 8px);
+  overflow: hidden;
+  transition: transform var(--fleye-dur-normal) var(--fleye-ease-smooth),
+              box-shadow var(--fleye-dur-normal) var(--fleye-ease-smooth);
+}
+
+/* Card Hover Elevation */
+@media (-moz-touch-enabled: 0), (hover: hover) and (min-width: 1025px) {
+  .t4s-product.t4s-pr-grid:hover {
+    transform: translateY(-5px);
+  }
+
+  .t4s-product.t4s-pr-grid:hover .t4s-product-inner {
+    box-shadow: var(--fleye-shadow-lg);
+  }
+}
+
+/* Product Image Smooth Zoom & Pan */
+.t4s-product .t4s-product-main-img img,
+.t4s-product .t4s-product-img img,
+.t4s-pr-img {
+  transition: transform 0.75s var(--fleye-ease-smooth),
+              filter 0.5s var(--fleye-ease-smooth) !important;
+  will-change: transform;
+}
+
+@media (-moz-touch-enabled: 0), (hover: hover) and (min-width: 1025px) {
+  .t4s-product:hover .t4s-product-main-img img,
+  .t4s-product:hover .t4s-product-img img,
+  .t4s-product:hover .t4s-pr-img {
+    transform: scale(1.06);
+  }
+}
+
+/* Secondary Hover Image Smooth Crossfade */
+.t4s-product .t4s-product-hover-img {
+  transition: opacity 0.5s var(--fleye-ease-smooth),
+              transform 0.75s var(--fleye-ease-smooth) !important;
+  transform: scale(1.02);
+}
+
+@media (-moz-touch-enabled: 0), (hover: hover) and (min-width: 1025px) {
+  .t4s-product:hover .t4s-product-hover-img {
+    transform: scale(1.06);
+    opacity: 1 !important;
+  }
+}
+
+/* Product Action Buttons (Quick View, Wishlist, Compare, ATC) */
+.t4s-product-btns,
+.t4s-product-btns2 {
+  z-index: 4;
+}
+
+.t4s-product .t4s-pr-item-btn {
+  border-radius: 50% !important;
+  box-shadow: var(--fleye-shadow-md);
+  transition: transform var(--fleye-dur-normal) var(--fleye-ease-spring),
+              background-color var(--fleye-dur-fast) ease,
+              color var(--fleye-dur-fast) ease,
+              box-shadow var(--fleye-dur-fast) ease,
+              opacity var(--fleye-dur-normal) var(--fleye-ease-out) !important;
+  will-change: transform, opacity;
+}
+
+/* Staggered Spring Entry for Product Action Buttons */
+@media (-moz-touch-enabled: 0), (hover: hover) and (min-width: 1025px) {
+  .t4s-product-btns .t4s-pr-item-btn:nth-child(1),
+  .t4s-product-btns2 .t4s-pr-item-btn:nth-child(1) {
+    transition-delay: 40ms !important;
+  }
+  .t4s-product-btns .t4s-pr-item-btn:nth-child(2),
+  .t4s-product-btns2 .t4s-pr-item-btn:nth-child(2) {
+    transition-delay: 80ms !important;
+  }
+  .t4s-product-btns .t4s-pr-item-btn:nth-child(3),
+  .t4s-product-btns2 .t4s-pr-item-btn:nth-child(3) {
+    transition-delay: 120ms !important;
+  }
+
+  /* Button Hover Bounce & Glow */
+  .t4s-product .t4s-pr-item-btn:hover {
+    transform: scale(1.16) translateY(-2px) !important;
+    box-shadow: var(--fleye-shadow-hover);
+  }
+
+  .t4s-product .t4s-pr-item-btn:active {
+    transform: scale(0.95) !important;
+  }
+}
+
+/* Wishlist Heart Beat Animation */
+.t4s-pr-wishlist.is--added svg,
+.t4s-pr-wishlist.is--added i,
+.ssw-link-fave-menu.active i {
+  animation: fleyeHeartBeat 0.65s var(--fleye-ease-bounce);
+  color: #EB001B !important;
+}
+
+/* Color Swatches Magnetic Hover */
+.t4s-product-colors .t4s-pr-color__item {
+  transition: transform var(--fleye-dur-fast) var(--fleye-ease-spring),
+              box-shadow var(--fleye-dur-fast) ease;
+}
+
+.t4s-product-colors .t4s-pr-color__item:hover {
+  transform: scale(1.22);
+}
+
+.t4s-product-colors .t4s-pr-color__item.is--selected {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 2px var(--t4s-body-background, #fff), 0 0 0 3.5px var(--accent-color, #222);
+}
+
+/* Badges Subtle Pulse & Shimmer */
+.t4s-product-badge > span {
+  box-shadow: var(--fleye-shadow-sm);
+  transition: transform var(--fleye-dur-fast) var(--fleye-ease-spring);
+}
+
+.t4s-badge-sale,
+.t4s-badge-hot {
+  animation: fleyePulseGlow 3s infinite ease-in-out;
+}
+
+.t4s-product:hover .t4s-product-badge > span {
+  transform: scale(1.05);
+}
+
+/* Price Display Transition */
+.t4s-product-price {
+  transition: color var(--fleye-dur-fast) ease, transform var(--fleye-dur-fast) ease;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. HEADER, STICKY NAV & DROPDOWN MEGA-MENUS
+   -------------------------------------------------------------------------- */
+
+/* Frosted Glass Sticky Header & High Z-Index Stacking Context */
+.t4s-section-header,
+header.t4s-section-header,
+[id^="shopify-section-header-"],
+#shopify-section-header-inline {
+  position: relative !important;
+  z-index: 500 !important;
+  transition: transform var(--fleye-dur-normal) var(--fleye-ease-smooth),
+              background-color var(--fleye-dur-normal) ease,
+              box-shadow var(--fleye-dur-normal) ease,
+              backdrop-filter var(--fleye-dur-normal) ease;
+}
+
+.t4s-header__wrapper {
+  position: relative !important;
+  z-index: 500 !important;
+}
+
+.t4s-navigation {
+  position: relative;
+  z-index: 501;
+}
+
+.t4s-navigation .t4s-nav__ul > li.has--children {
+  position: relative;
+}
+
+.t4s-navigation .t4s-nav__ul > li.has--children:hover,
+.t4s-navigation .t4s-nav__ul > li.has--children.is-action__hover {
+  z-index: 1001 !important;
+}
+
+/* Ensure MainContent and Top Slider cannot paint above the header dropdowns */
+#MainContent {
+  position: relative;
+  z-index: 1;
+}
+
+.t4s-sec-slideshow,
+.t4s-slideshow {
+  position: relative;
+  z-index: 1;
+}
+
+.is-header--stuck .t4s-section-header,
+.shopify-section-header-sticky {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 500 !important;
+}
+
+.is-header--stuck .t4s-header__wrapper {
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Navigation Links - Clean Hover Without Animated Underline */
+.t4s-navigation .t4s-nav__ul > li.t4s-menu-item > a,
+.t4s-navigation .t4s-menu-item > a,
+.t4s-nav__ul > li > a {
+  position: relative;
+  text-decoration: none !important;
+  transition: color var(--fleye-dur-fast) ease;
+}
+
+.t4s-navigation .t4s-nav__ul > li.t4s-menu-item > a::after,
+.t4s-navigation .t4s-menu-item > a::after,
+.t4s-nav__ul > li > a::after {
+  display: none !important;
+  content: none !important;
+}
+
+@media (-moz-touch-enabled: 0), (hover: hover) and (min-width: 1025px) {
+  .t4s-navigation .t4s-nav__ul > li.t4s-menu-item:hover > a::after,
+  .t4s-navigation .t4s-nav__ul > li.t4s-menu-item.is-action__hover > a::after,
+  .t4s-navigation .t4s-menu-item:hover > a::after,
+  .t4s-navigation .t4s-menu-item.is-action__hover > a::after,
+  .t4s-nav__ul > li > a:hover::after {
+    display: none !important;
+    content: none !important;
+    width: 0 !important;
+  }
+}
+
+/* Silky Desktop Mega Menu & Dropdown Sliding Down Entrance */
+@media (min-width: 1025px) {
+  /* Top-Level Dropdown Item Positioning */
+  .t4s-navigation .t4s-nav__ul > li.t4s-type__drop,
+  .t4s-nav__ul > li.t4s-type__drop,
+  li.t4s-type__drop {
+    position: relative !important;
+  }
+
+  .t4s-navigation .t4s-nav__ul > li.t4s-type__drop > .t4s-sub-menu,
+  .t4s-nav__ul > li.t4s-type__drop > .t4s-sub-menu,
+  .t4s-type__drop > .t4s-sub-menu {
+    top: 100% !important;
+    left: 0 !important;
+    right: auto !important;
+  }
+
+  .t4s-navigation .t4s-nav__ul > li.t4s-type__drop.menu-pos__right > .t4s-sub-menu,
+  .t4s-nav__ul > li.t4s-type__drop.menu-pos__right > .t4s-sub-menu {
+    left: auto !important;
+    right: 0 !important;
+  }
+
+  /* Direct Top-Level Submenu - Base Hidden State (ready to slide down) */
+  .t4s-navigation .t4s-nav__ul > li.has--children > .t4s-sub-menu,
+  .t4s-navigation .t4s-nav__ul > li.has--children > .t4s-mega-menu,
+  .t4s-type__drop > .t4s-sub-menu,
+  .t4s-type__mega > .t4s-sub-menu,
+  .t4s-sub-menu {
+    display: block !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(-12px) !important;
+    transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.25s ease !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    border-radius: 0 0 var(--other-radius, 8px) var(--other-radius, 8px);
+    z-index: 1002 !important;
+    will-change: transform, opacity;
+  }
+
+  /* Center-screen positioned dropdown base state */
+  .t4s-navigation .t4s-nav__ul > li.has--children > .t4s-sub-menu.is--center-screen {
+    left: 50% !important;
+    transform: translateX(-50%) translateY(-12px) !important;
+  }
+
+  /* Slide Down Smoothly on Mouseover / Hover / Focus */
+  .t4s-navigation .t4s-nav__ul > li.has--children:hover > .t4s-sub-menu,
+  .t4s-navigation .t4s-nav__ul > li.has--children.is-action__hover > .t4s-sub-menu,
+  .t4s-navigation .t4s-nav__ul > li.has--children:hover > .t4s-mega-menu,
+  .t4s-navigation .t4s-nav__ul > li.has--children.is-action__hover > .t4s-mega-menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
+    z-index: 1002 !important;
+  }
+
+  /* Center-screen active state */
+  .t4s-navigation .t4s-nav__ul > li.has--children:hover > .t4s-sub-menu.is--center-screen,
+  .t4s-navigation .t4s-nav__ul > li.has--children.is-action__hover > .t4s-sub-menu.is--center-screen {
+    transform: translateX(-50%) translateY(0) !important;
+  }
+
+  /* Submenu links & elements become clickable */
+  .t4s-navigation .t4s-nav__ul > li.has--children:hover > .t4s-sub-menu *,
+  .t4s-navigation .t4s-nav__ul > li.has--children.is-action__hover > .t4s-sub-menu *,
+  .t4s-navigation .t4s-nav__ul > li.has--children:hover > .t4s-mega-menu *,
+  .t4s-navigation .t4s-nav__ul > li.has--children.is-action__hover > .t4s-mega-menu * {
+    pointer-events: auto !important;
+  }
+
+  /* Invisible hover bridges to eliminate ANY gap between nav link and submenu */
+  .t4s-navigation .t4s-nav__ul > li.has--children::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 25px;
+    z-index: 99;
+    pointer-events: none;
+    opacity: 0;
+  }
+  .t4s-navigation .t4s-nav__ul > li.has--children:hover::after,
+  .t4s-navigation .t4s-nav__ul > li.has--children.is-action__hover::after {
+    pointer-events: auto;
+    opacity: 1;
+  }
+  .t4s-navigation .t4s-nav__ul > li.has--children > a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -22px;
+    z-index: 10;
+  }
+  .t4s-navigation .t4s-nav__ul > li.has--children > .t4s-sub-menu::before {
+    content: '';
+    position: absolute;
+    top: -16px;
+    left: 0;
+    right: 0;
+    height: 16px;
+    z-index: 10;
+  }
+
+  /* Staggered Slide-down Fade for Sub-menu Links */
+  .t4s-navigation .t4s-nav__ul > li.has--children:hover .t4s-sub-menu li,
+  .t4s-navigation .t4s-nav__ul > li.has--children.is-action__hover .t4s-sub-menu li,
+  .t4s-navigation .t4s-nav__ul > li.has--children:hover .t4s-sub-menu .t4s-menu-item,
+  .t4s-navigation .t4s-nav__ul > li.has--children.is-action__hover .t4s-sub-menu .t4s-menu-item,
+  .t4s-navigation .t4s-nav__ul > li.has--children:hover .t4s-mega-menu .t4s-col-item,
+  .t4s-navigation .t4s-nav__ul > li.has--children.is-action__hover .t4s-mega-menu .t4s-col-item {
+    animation: fleyeSlideDownFade 0.28s var(--fleye-ease-out) backwards;
+  }
+
+  .t4s-navigation .t4s-sub-menu .t4s-menu-item:nth-child(1),
+  .t4s-navigation .t4s-sub-menu li:nth-child(1) { animation-delay: 35ms; }
+  .t4s-navigation .t4s-sub-menu .t4s-menu-item:nth-child(2),
+  .t4s-navigation .t4s-sub-menu li:nth-child(2) { animation-delay: 70ms; }
+  .t4s-navigation .t4s-sub-menu .t4s-menu-item:nth-child(3),
+  .t4s-navigation .t4s-sub-menu li:nth-child(3) { animation-delay: 105ms; }
+  .t4s-navigation .t4s-sub-menu .t4s-menu-item:nth-child(4),
+  .t4s-navigation .t4s-sub-menu li:nth-child(4) { animation-delay: 140ms; }
+  .t4s-navigation .t4s-sub-menu .t4s-menu-item:nth-child(5),
+  .t4s-navigation .t4s-sub-menu li:nth-child(5) { animation-delay: 175ms; }
+  .t4s-navigation .t4s-sub-menu .t4s-menu-item:nth-child(6),
+  .t4s-navigation .t4s-sub-menu li:nth-child(6) { animation-delay: 210ms; }
+
+  /* Nested Level-2 and Level-3 Flyout Sub-Menus inside Dropdowns */
+  .t4s-type__drop .t4s-sub-menu .t4s-menu-item.has--children {
+    position: relative !important;
+  }
+  .t4s-type__drop .t4s-sub-menu .t4s-menu-item.has--children > .t4s-sub-menu {
+    display: none !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 100% !important;
+    right: auto !important;
+    min-width: 220px !important;
+    background-color: var(--t4s-body-background, #fff) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    border-radius: 4px !important;
+    padding: 8px 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateX(-8px) !important;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease !important;
+    z-index: 1005 !important;
+  }
+  .t4s-type__drop.menu-pos__left .t4s-sub-menu .t4s-menu-item.has--children > .t4s-sub-menu {
+    left: auto !important;
+    right: 100% !important;
+    transform: translateX(8px) !important;
+  }
+  .t4s-type__drop .t4s-sub-menu .t4s-menu-item.has--children:hover > .t4s-sub-menu,
+  .t4s-type__drop .t4s-sub-menu .t4s-menu-item.has--children.is--child-open > .t4s-sub-menu {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateX(0) !important;
+  }
+  .t4s-type__drop .t4s-sub-menu .t4s-menu-item.has--children:hover > .t4s-sub-menu *,
+  .t4s-type__drop .t4s-sub-menu .t4s-menu-item.has--children.is--child-open > .t4s-sub-menu * {
+    pointer-events: auto !important;
+  }
+}
+
+/* Mobile Sidebar Drawer Navigation Sub-Menu Compatibility */
+.t4s-mb__menu .t4s-sub-menu,
+.t4s-mb__menu .t4s-sub-sub-menu,
+.t4s-mb__menu .t4s-sub-sub-sub-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.t4s-mb__menu .t4s-menu-item-has-children.is--opend > .t4s-sub-menu,
+.t4s-mb__menu .t4s-menu-item-has-children.is--opend > .t4s-sub-sub-menu,
+.t4s-mb__menu .t4s-menu-item-has-children.is--opend > .t4s-sub-sub-sub-menu {
+  display: block;
+}
+
+/* Header Icon Hover Bounce */
+.t4s-site-nav__icons a,
+.t4s-site-nav__icons button {
+  transition: transform var(--fleye-dur-fast) var(--fleye-ease-spring),
+              color var(--fleye-dur-fast) ease;
+}
+
+@media (-moz-touch-enabled: 0), (hover: hover) and (min-width: 1025px) {
+  .t4s-site-nav__icons a:hover,
+  .t4s-site-nav__icons button:hover {
+    transform: translateY(-2px) scale(1.1);
+  }
+}
+
+/* Cart Counter Pop */
+.t4s-count-box,
+.t4s-cart-count {
+  transition: transform var(--fleye-dur-fast) var(--fleye-ease-spring);
+}
+
+.t4s-count-box.fleye-pop,
+.t4s-cart-count.fleye-pop {
+  animation: fleyeBadgePop 0.5s var(--fleye-ease-bounce) !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   5. MINI CART DRAWER & AJAX CART ANIMATIONS
+   -------------------------------------------------------------------------- */
+
+/* Cart Drawer Fluid Spring Slide */
+.t4s-drawer.t4s-drawer__right {
+  transition: transform var(--fleye-dur-slow) var(--fleye-ease-spring),
+              visibility var(--fleye-dur-slow) ease !important;
+  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Cart Drawer Backdrop Blur */
+.t4s-close-overlay {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  transition: opacity var(--fleye-dur-normal) var(--fleye-ease-smooth),
+              visibility var(--fleye-dur-normal) ease;
+}
+
+/* Dynamic Free Shipping Threshold Bar */
+.t4s-cart-thes__bar {
+  overflow: hidden;
+  position: relative;
+  background-color: rgba(var(--text-color-rgb, 34, 34, 34), 0.1);
+  border-radius: 10px !important;
+}
+
+.t4s-cart-thes__bar > span {
+  transition: width 0.8s var(--fleye-ease-smooth), background-color 0.4s ease !important;
+  background-size: 20px 20px;
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.25) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.25) 75%,
+    transparent 75%,
+    transparent
+  ) !important;
+  animation: fleyeProgressStripe 1.2s linear infinite !important;
+  border-radius: 10px !important;
+}
+
+/* Celebration Glow on Reaching 100% Free Shipping */
+[data-t4s-percent="100"] .t4s-cart-thes__bar > span,
+.t4s-cart__thres3 + .t4s-cart-thes__bar > span,
+.fleye-ship-achieved .t4s-cart-thes__bar > span {
+  animation: fleyeProgressStripe 1.2s linear infinite, fleyeCelebrationGlow 2s infinite ease-in-out !important;
+}
+
+/* Cart Items Micro-Animations */
+.t4s-mini_cart__item {
+  transition: all var(--fleye-dur-normal) var(--fleye-ease-smooth);
+  will-change: transform, opacity, max-height;
+}
+
+/* Cart Item Removal Smooth Slide-Out */
+.t4s-mini_cart__item.fleye-item-removing {
+  transform: translateX(40px) scale(0.92);
+  opacity: 0;
+  max-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+  overflow: hidden;
+}
+
+/* Quantity Selector Tactile Bounce */
+.t4s-quantity-cart button,
+.t4s-quantity-cart a,
+.t4s-pr__qty button {
+  transition: transform var(--fleye-dur-instant) var(--fleye-ease-spring),
+              background-color var(--fleye-dur-fast) ease;
+}
+
+.t4s-quantity-cart button:active,
+.t4s-pr__qty button:active {
+  transform: scale(0.82);
+}
+
+.t4s-quantity-cart button:hover,
+.t4s-pr__qty button:hover {
+  background-color: rgba(var(--text-color-rgb, 34, 34, 34), 0.08);
+}
+
+/* Empty Cart Floating State */
+.t4s-mini_cart__empty svg,
+.t4s-cart-empty svg {
+  animation: fleyeFloatGentle 3.5s ease-in-out infinite;
+}
+
+
+/* --------------------------------------------------------------------------
+   6. PRODUCT DETAIL PAGE (PDP) INTERACTIVE FEATURES
+   -------------------------------------------------------------------------- */
+
+/* Sticky Add to Cart Bar Smooth Slide-Up */
+.t4s-sticky-atc {
+  transition: transform var(--fleye-dur-normal) var(--fleye-ease-spring),
+              opacity var(--fleye-dur-normal) ease;
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Variant Swatches & Pills */
+.t4s-swatch__item {
+  transition: transform var(--fleye-dur-fast) var(--fleye-ease-spring),
+              box-shadow var(--fleye-dur-fast) ease,
+              border-color var(--fleye-dur-fast) ease;
+}
+
+.t4s-swatch__item:hover {
+  transform: translateY(-2px);
+}
+
+.t4s-swatch__item.is--selected {
+  transform: scale(1.05);
+  box-shadow: var(--fleye-shadow-sm);
+}
+
+/* Out of stock variant pill strike-through animation */
+.t4s-swatch__item.is--sold-out {
+  position: relative;
+  opacity: 0.55;
+}
+
+.t4s-swatch__item.is--sold-out::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background-color: currentColor;
+  transform: rotate(-30deg);
+  transition: transform var(--fleye-dur-fast) ease;
+}
+
+/* Accordion Smooth Expansion & Rotating Chevron */
+.t4s-tab-wrapper .t4s-tab__title {
+  transition: color var(--fleye-dur-fast) ease;
+}
+
+.t4s-tab-wrapper .t4s-tab__title .t4s-tab__icon {
+  transition: transform var(--fleye-dur-normal) var(--fleye-ease-spring);
+}
+
+.t4s-tab-wrapper.is--opened .t4s-tab__title .t4s-tab__icon,
+.t4s-accordion-item.is--active .t4s-tab__icon {
+  transform: rotate(180deg);
+}
+
+/* Live Stock Urgency Pulsing Radar Dot */
+.fleye-stock-pulse {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.fleye-stock-pulse__dot {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--t4s-success-color, #428445);
+}
+
+.fleye-stock-pulse__dot::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border-radius: 50%;
+  border: 2px solid var(--t4s-success-color, #428445);
+  animation: fleyeRadarWave 2s infinite ease-out;
+}
+
+.fleye-stock-pulse--low .fleye-stock-pulse__dot {
+  background-color: var(--t4s-warning-color, #e0b252);
+}
+
+.fleye-stock-pulse--low .fleye-stock-pulse__dot::after {
+  border-color: var(--t4s-warning-color, #e0b252);
+}
+
+
+/* --------------------------------------------------------------------------
+   7. SCROLL REVEAL & SECTION ANIMATIONS
+   -------------------------------------------------------------------------- */
+
+/* Elements with fleye-reveal class */
+.fleye-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity var(--fleye-dur-slow) var(--fleye-ease-out),
+              transform var(--fleye-dur-slow) var(--fleye-ease-out);
+  will-change: opacity, transform;
+}
+
+.fleye-reveal.fleye-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays for grid children */
+.fleye-reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity var(--fleye-dur-normal) var(--fleye-ease-out),
+              transform var(--fleye-dur-normal) var(--fleye-ease-out);
+}
+
+.fleye-reveal-stagger.fleye-revealed > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 50ms; }
+.fleye-reveal-stagger.fleye-revealed > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 110ms; }
+.fleye-reveal-stagger.fleye-revealed > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 170ms; }
+.fleye-reveal-stagger.fleye-revealed > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 230ms; }
+.fleye-reveal-stagger.fleye-revealed > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 290ms; }
+.fleye-reveal-stagger.fleye-revealed > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 350ms; }
+.fleye-reveal-stagger.fleye-revealed > *:nth-child(7) { opacity: 1; transform: translateY(0); transition-delay: 410ms; }
+.fleye-reveal-stagger.fleye-revealed > *:nth-child(8) { opacity: 1; transform: translateY(0); transition-delay: 470ms; }
+
+/* Section Top Heading Underline Animation */
+.t4s-top-heading .t4s-section-title {
+  position: relative;
+  display: inline-block;
+}
+
+
+/* --------------------------------------------------------------------------
+   8. WHATSAPP & FLOATING INTERACTIVE WIDGETS
+   -------------------------------------------------------------------------- */
+
+.whatsapp-float-container {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  z-index: 999;
+  font-family: inherit;
+}
+
+/* Floating WhatsApp Button with Radar Pulse */
+.whatsapp-float-button {
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(37, 211, 102, 0.45);
+  transition: transform var(--fleye-dur-fast) var(--fleye-ease-spring),
+              box-shadow var(--fleye-dur-fast) ease;
+  position: relative;
+  animation: fleyeRadarWave 2.8s infinite ease-out;
+}
+
+@media (-moz-touch-enabled: 0), (hover: hover) and (min-width: 1025px) {
+  .whatsapp-float-button:hover {
+    transform: scale(1.12) rotate(6deg);
+    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.6);
+  }
+}
+
+.whatsapp-icon {
+  fill: white;
+  width: 28px;
+  height: 28px;
+  transition: transform var(--fleye-dur-fast) var(--fleye-ease-spring);
+}
+
+.whatsapp-float-button:hover .whatsapp-icon {
+  transform: scale(1.1);
+}
+
+/* WhatsApp Interactive Message Tooltip Bubble */
+.whatsapp-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 12px;
+  background: #ffffff;
+  color: #128C7E;
+  padding: 10px 18px;
+  border-radius: 24px;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(37, 211, 102, 0.2);
+  opacity: 0;
+  transform: translateX(-15px) scale(0.9);
+  pointer-events: none;
+  transition: opacity var(--fleye-dur-normal) var(--fleye-ease-spring),
+              transform var(--fleye-dur-normal) var(--fleye-ease-spring);
+}
+
+.whatsapp-text-link.visible {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  pointer-events: auto;
+}
+
+@media (-moz-touch-enabled: 0), (hover: hover) and (min-width: 1025px) {
+  .whatsapp-text-link:hover {
+    background: #25D366;
+    color: #ffffff;
+    box-shadow: 0 6px 22px rgba(37, 211, 102, 0.4);
+    transform: translateY(-2px);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .whatsapp-float-container {
+    bottom: 75px;
+    left: 16px;
+  }
+  .whatsapp-float-button {
+    width: 46px;
+    height: 46px;
+  }
+  .whatsapp-icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   9. BACK TO TOP BUTTON ENHANCEMENT
+   -------------------------------------------------------------------------- */
+
+.t4s-back-to-top {
+  border-radius: 50% !important;
+  box-shadow: var(--fleye-shadow-md);
+  transition: transform var(--fleye-dur-normal) var(--fleye-ease-spring),
+              opacity var(--fleye-dur-normal) ease,
+              background-color var(--fleye-dur-fast) ease,
+              box-shadow var(--fleye-dur-fast) ease !important;
+}
+
+@media (-moz-touch-enabled: 0), (hover: hover) and (min-width: 1025px) {
+  .t4s-back-to-top:hover {
+    transform: translateY(-4px) scale(1.12) !important;
+    box-shadow: var(--fleye-shadow-hover);
+  }
+
+  .t4s-back-to-top:hover svg {
+    animation: fleyeFloatGentle 1.2s ease-in-out infinite;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   10. ANNOUNCEMENT BAR TICKER & LOOKBOOK HOTSPOTS
+   -------------------------------------------------------------------------- */
+
+/* Lookbook Pin Pulse */
+.t4s-lookbook-pin,
+.t4s-pin__item {
+  animation: fleyeRadarWaveAccent 2.5s infinite ease-out;
+  transition: transform var(--fleye-dur-fast) var(--fleye-ease-spring);
+}
+
+.t4s-lookbook-pin:hover,
+.t4s-pin__item:hover {
+  transform: scale(1.25);
+}
+
+/* Search Drawer Input Focus & Micro-interactions */
+#t4s-search-hidden .t4s-mini-search__input {
+  transition: border-color var(--fleye-dur-fast) ease, box-shadow var(--fleye-dur-fast) ease;
+}
+
+#t4s-search-hidden .t4s-mini-search__input:focus {
+  border-color: var(--accent-color, #222) !important;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+}
+
+#t4s-search-hidden .t4s-widget__pr {
+  transition: transform var(--fleye-dur-fast) var(--fleye-ease-spring),
+              background-color var(--fleye-dur-fast) ease;
+  border-radius: var(--other-radius, 6px);
+  padding: 6px 8px;
+}
+
+#t4s-search-hidden .t4s-widget__pr:hover {
+  transform: translateX(4px);
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+
+/* --------------------------------------------------------------------------
+   11. ACCESSIBILITY / PREFERS-REDUCED-MOTION
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .fleye-reveal,
+  .fleye-reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

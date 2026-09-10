@@ -75,7 +75,7 @@
     "link_ship": "shipping-delivery",
     "link_conditions": "terms-conditions",
     "privacy_policy_link": "privacy-policy",
-    "filter_type_search": true,
+    "filter_type_search": false,
     "search_types": "sidebar_hidden",
     "show_search_suggest": true,
     "search_prs_suggest": "clothing",
