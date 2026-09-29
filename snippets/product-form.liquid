@@ -170,8 +170,69 @@
         <!--code by harish for custom size-->
         <div class="custom-size-field">
           <label for="custom-size">Custom Size (Optional):</label>
-          <input type="text" id="custom-size" name="properties[Custom Size]" placeholder="e.g. Bust 34,  Waist 28, Hips 38" />
+          <input type="text" id="custom-size" class="custom-size-input" name="properties[Custom Size]" placeholder="e.g. Bust 34,  Waist 28, Hips 38" />
+          <div class="custom-size-notice" style="display: none;">
+            A <b>₹1,000</b> advance payment is required for all made-to-measure orders. This amount will be adjusted against your final order total.
+          </div>
         </div>
+        <style>
+          .custom-size-notice {
+            display: none;
+            position: relative;
+            margin-top: 8px;
+            padding: 8px 12px;
+            background-color: #eaf4fc;
+            border: 1px solid #000000;
+            border-radius: 6px;
+            color: #000000;
+            font-size: 13px;
+            line-height: 1.4;
+          }
+          .custom-size-notice::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 16px;
+            width: 8px;
+            height: 8px;
+            background-color: #eaf4fc;
+            border-top: 1px solid #000000;
+            border-left: 1px solid #000000;
+            transform: rotate(45deg);
+          }
+        </style>
+        <script>
+          (function() {
+            function toggleCustomSizeNotice(input) {
+              if (!input) return;
+              var container = input.closest('.custom-size-field');
+              var notice = container ? container.querySelector('.custom-size-notice') : document.querySelector('.custom-size-notice');
+              if (!notice) return;
+              if (input.value.trim().length > 0) {
+                notice.style.display = 'block';
+              } else {
+                notice.style.display = 'none';
+              }
+            }
+
+            document.addEventListener('input', function(e) {
+              if (e.target && (e.target.classList.contains('custom-size-input') || e.target.id === 'custom-size')) {
+                toggleCustomSizeNotice(e.target);
+              }
+            });
+
+            document.addEventListener('change', function(e) {
+              if (e.target && (e.target.classList.contains('custom-size-input') || e.target.id === 'custom-size')) {
+                toggleCustomSizeNotice(e.target);
+              }
+            });
+
+            var initialInput = document.getElementById('custom-size') || document.querySelector('.custom-size-input');
+            if (initialInput) {
+              toggleCustomSizeNotice(initialInput);
+            }
+          })();
+        </script>
         <br>
         <!--code by harish ends here-->
         {%- liquid 
