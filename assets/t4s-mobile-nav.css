@@ -10,6 +10,7 @@
 #t4s-menu-drawer{
     overflow-y: auto;
     overflow-x: hidden;
+    z-index:1000;
 }
 
 .t4s-drawer__header.t4s-mb-nav__tabs {
